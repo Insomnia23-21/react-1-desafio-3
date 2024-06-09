@@ -1,27 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 
-function Buscador({ colaboradores, setColaboradores }) {
+function Buscador({ colaboradores, setFiltrados }) {
   const [busqueda, setBusqueda] = useState("");
+
+  useEffect(() => {
+    if (busqueda === "") {
+      setFiltrados(colaboradores);
+    } else {
+      setFiltrados(
+        colaboradores.filter(
+          (colaborador) =>
+            colaborador.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+            colaborador.correo.toLowerCase().includes(busqueda.toLowerCase()) ||
+            colaborador.edad.includes(busqueda) ||
+            colaborador.cargo.toLowerCase().includes(busqueda.toLowerCase()) ||
+            colaborador.telefono.includes(busqueda)
+        )
+      );
+    }
+  }, [busqueda, colaboradores, setFiltrados]);
 
   const handleSearch = (e) => {
     setBusqueda(e.target.value);
-    setColaboradores(
-      colaboradores.filter(
-        (colaborador) =>
-          colaborador.nombre
-            .toLowerCase()
-            .includes(e.target.value.toLowerCase()) ||
-          colaborador.correo
-            .toLowerCase()
-            .includes(e.target.value.toLowerCase()) ||
-          colaborador.edad.includes(e.target.value) ||
-          colaborador.cargo
-            .toLowerCase()
-            .includes(e.target.value.toLowerCase()) ||
-          colaborador.telefono.includes(e.target.value)
-      )
-    );
   };
 
   return (
