@@ -9,20 +9,23 @@ import "./App.css";
 
 function App() {
   const [colaboradores, setColaboradores] = useState(BaseColaboradores);
+  const [filtrados, setFiltrados] = useState(BaseColaboradores);
   const [mensaje, setMensaje] = useState("");
   const [mensajeTipo, setMensajeTipo] = useState("");
 
   const agregarColaborador = (nuevoColaborador) => {
-    setColaboradores([...colaboradores, nuevoColaborador]);
+    const nuevosColaboradores = [...colaboradores, nuevoColaborador];
+    setColaboradores(nuevosColaboradores);
+    setFiltrados(nuevosColaboradores);
     setMensaje("Colaborador agregado !");
     setMensajeTipo("success");
     setTimeout(() => setMensaje(""), 3000);
   };
 
   const eliminarColaborador = (id) => {
-    setColaboradores(
-      colaboradores.filter((colaborador) => colaborador.id !== id)
-    );
+    const nuevosColaboradores = colaboradores.filter((colaborador) => colaborador.id !== id);
+    setColaboradores(nuevosColaboradores);
+    setFiltrados(nuevosColaboradores);
   };
 
   return (
@@ -30,10 +33,10 @@ function App() {
       <h1>Lista de colaboradores</h1>
       <Buscador
         colaboradores={colaboradores}
-        setColaboradores={setColaboradores}
+        setFiltrados={setFiltrados}
       />
       <Listado
-        colaboradores={colaboradores}
+        colaboradores={filtrados}
         eliminarColaborador={eliminarColaborador}
       />
       <Formulario
